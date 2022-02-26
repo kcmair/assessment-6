@@ -4,6 +4,15 @@ const app = express()
 const {bots, playerRecord} = require('./data')
 const {shuffleArray} = require('./utils')
 
+const Rollbar = require('rollbar')
+const rollbar = new Rollbar({
+  accessToken: process.env.ACCESS_TOKEN,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+})
+
+rollbar.log('Welcome to the Jungle!')
+
 app.use(express.json())
 
 app.use(express.static(path.join(__dirname, './public')))
@@ -14,7 +23,8 @@ app.get('/', (req, res) => {
 
 app.get('/api/robots', (req, res) => {
     try {
-        res.status(200).send(botsArr)
+        rollbar.debug('This bug has been exterminated!')
+        res.status(200).send(bots)
     } catch (error) {
         console.log('ERROR GETTING BOTS', error)
         res.sendStatus(400)
@@ -35,6 +45,7 @@ app.get('/api/robots/five', (req, res) => {
 
 app.post('/api/duel', (req, res) => {
     try {
+        rollbar.warning("It's about to go down!!!")
         // getting the duos from the front end
         let {compDuo, playerDuo} = req.body
 
@@ -54,9 +65,11 @@ app.post('/api/duel', (req, res) => {
         if (compHealthAfterAttack > playerHealthAfterAttack) {
             playerRecord.losses++
             res.status(200).send('You lost!')
+            rollbar.info("Player got schooled!")
         } else {
-            playerRecord.losses++
+            playerRecord.wins++
             res.status(200).send('You won!')
+            rollbar.error("They effing won???")
         }
     } catch (error) {
         console.log('ERROR DUELING', error)

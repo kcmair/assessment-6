@@ -118,6 +118,7 @@ const putBotBack = (id) => {
 }
 
 const drawFive = () => {
+    allBotsDiv.innerHTML = ''
     axios.get('/api/robots/five')
         .then(res => {
             choices = res.data.choices
@@ -130,6 +131,7 @@ const drawFive = () => {
 const duel = () => {
     resultsText.textContent = 'Dueling...'
     duelBtn.classList.add('hide')
+    allBotsDiv.innerHTML = ''
     choicesDiv.innerHTML = ''
     chooseHeader.classList.add('hide')
     renderCompDuo()

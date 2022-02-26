@@ -1,9 +1,12 @@
 const {shuffleArray} = require('./utils')
+const {bots} = require('./data')
 
 describe('shuffleArray should', () => {
-    test('shuffleArray should be an array', () => {
-        expect(typeof(shuffleArray)).toBe(array)
+    test('be an array', () => {
+        expect(Array.isArray(shuffleArray(bots))).toBe(true)
     })
 
-    test('')
+    it('be the same length as the bots array', () => {
+        expect(shuffleArray(bots).length).toBe(bots.length)
+    })
 })
